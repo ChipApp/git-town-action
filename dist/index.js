@@ -42862,7 +42862,13 @@ async function main({
     }
   });
   pullRequests.forEach((pullRequest) => {
-    repoGraph.addDirectedEdge(pullRequest.baseRefName, pullRequest.headRefName);
+    try {
+      repoGraph.addDirectedEdge(pullRequest.baseRefName, pullRequest.headRefName);
+    } catch (error) {
+      core.warning(
+        `failed to add edge: ${pullRequest.baseRefName} -> ${pullRequest.headRefName}`
+      );
+    }
   });
   const getStackGraph = (pullRequest) => {
     const stackGraph2 = repoGraph.copy();
