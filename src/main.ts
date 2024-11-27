@@ -29,12 +29,12 @@ export async function main({
 
   pullRequests.forEach((pullRequest) => {
     try {
-          repoGraph.addNode(pullRequest.headRefName, {
-            type: 'pull-request',
-            ...pullRequest,
-          })
+      repoGraph.addNode(pullRequest.headRefName, {
+        type: 'pull-request',
+        ...pullRequest,
+      })
     } catch (error) {
-      console.error(error)
+      core.warning(`failed to add node: ${pullRequest.headRefName}`)
     }
   })
 

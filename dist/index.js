@@ -18783,10 +18783,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       command_1.issueCommand("error", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
     exports2.error = error;
-    function warning2(message, properties = {}) {
+    function warning3(message, properties = {}) {
       command_1.issueCommand("warning", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
-    exports2.warning = warning2;
+    exports2.warning = warning3;
     function notice(message, properties = {}) {
       command_1.issueCommand("notice", utils_1.toCommandProperties(properties), message instanceof Error ? message.toString() : message);
     }
@@ -42852,10 +42852,14 @@ async function main({
     });
   });
   pullRequests.forEach((pullRequest) => {
-    repoGraph.addNode(pullRequest.headRefName, {
-      type: "pull-request",
-      ...pullRequest
-    });
+    try {
+      repoGraph.addNode(pullRequest.headRefName, {
+        type: "pull-request",
+        ...pullRequest
+      });
+    } catch (error) {
+      core.warning(`failed to add node: ${pullRequest.headRefName}`);
+    }
   });
   pullRequests.forEach((pullRequest) => {
     repoGraph.addDirectedEdge(pullRequest.baseRefName, pullRequest.headRefName);
