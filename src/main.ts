@@ -28,10 +28,14 @@ export async function main({
   })
 
   pullRequests.forEach((pullRequest) => {
-    repoGraph.addNode(pullRequest.headRefName, {
-      type: 'pull-request',
-      ...pullRequest,
-    })
+    try {
+          repoGraph.addNode(pullRequest.headRefName, {
+            type: 'pull-request',
+            ...pullRequest,
+          })
+    } catch (error) {
+      console.error(error)
+    }
   })
 
   pullRequests.forEach((pullRequest) => {
